@@ -27,7 +27,7 @@ else()
     endif()
 endif()
 
-include_directories(headers/
+include_directories(include/
                     vendor/assimp/include/
                     vendor/bullet/src/
                     vendor/glad/include/
@@ -35,9 +35,9 @@ include_directories(headers/
                     vendor/glm/
                     vendor/stb/)
 
-file(GLOB VENDORS_SOURCES vendor/glad/src/glad.c)
-file(GLOB PROJECT_HEADERS headers/*.hpp)
-file(GLOB PROJECT_SOURCES sources/*.cpp)
+file(GLOB VENDOR_SRC vendor/glad/src/glad.c)
+file(GLOB PROJECT_INCLUDE headers/*.hpp)
+file(GLOB PROJECT_SRC src/*.cpp)
 file(GLOB PROJECT_ASSETS  assets/*)
 file(GLOB PROJECT_SHADERS shaders/*.comp
                           shaders/*.frag
@@ -49,17 +49,17 @@ file(GLOB PROJECT_CONFIGS CMakeLists.txt
                          .gitignore
                          .gitmodules)
 
-source_group("headers" FILES ${PROJECT_HEADERS})
+source_group("include" FILES ${PROJECT_HEADERS})
 source_group("shaders" FILES ${PROJECT_SHADERS})
-source_group("sources" FILES ${PROJECT_SOURCES})
-source_group("vendors" FILES ${VENDORS_SOURCES})
+source_group("src" FILES ${PROJECT_SOURCES})
+source_group("vendor" FILES ${VENDOR_SRC})
 source_group("assets" FILES ${PROJECT_ASSETS})
 
 add_definitions(-DGLFW_INCLUDE_NONE
                 -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\")
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS}
+add_executable(${PROJECT_NAME} ${PROJECT_SRC} ${PROJECT_INCLUDE}
                                ${PROJECT_SHADERS} ${PROJECT_CONFIGS}
-                               ${VENDORS_SOURCES})
+                               ${VENDOR_SRC})
 target_link_libraries(${PROJECT_NAME} assimp glfw
                       ${GLFW_LIBRARIES} ${GLAD_LIBRARIES}
                       BulletDynamics BulletCollision LinearMath)
