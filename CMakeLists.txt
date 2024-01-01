@@ -55,10 +55,12 @@ source_group("src" FILES ${PROJECT_SOURCES})
 source_group("vendor" FILES ${VENDOR_SRC})
 source_group("assets" FILES ${PROJECT_ASSETS})
 
+message(${PROJECT_ASSETS})
+
 add_definitions(-DGLFW_INCLUDE_NONE
                 -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\")
 add_executable(${PROJECT_NAME} ${PROJECT_SRC} ${PROJECT_INCLUDE}
-                               ${PROJECT_SHADERS} ${PROJECT_CONFIGS}
+                               ${PROJECT_SHADERS} ${PROJECT_ASSETS} ${PROJECT_CONFIGS}
                                ${VENDOR_SRC})
 target_link_libraries(${PROJECT_NAME} assimp glfw
                       ${GLFW_LIBRARIES} ${GLAD_LIBRARIES}
@@ -74,4 +76,4 @@ add_custom_command(
 add_custom_command(
     TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:${PROJECT_NAME}>
-    DEPENDS ${PROJECT_ASSETS})
+    DEPENDS ${PROJECT_NAME})
